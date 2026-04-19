@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>KDS Marking System</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b1220;
+      color: white;
+    }
+
+    .header {
+      background: #0f172a;
+      padding: 18px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+      border-bottom: 2px solid #22c55e;
+      position: relative;
+    }
+
+    /* Top-right Home link styled as a simple text link */
+    .homeLink {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9ae6b4; /* softer green */
+      text-decoration: none;
+      font-weight: 600;
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
+      font-size: 14px;
+      line-height: 1;
+      transition: color 120ms ease, text-decoration-color 120ms ease;
+    }
+
+    .homeLink:hover {
+      color: #d1fae5;
+      text-decoration: underline;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 20px auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      padding: 10px;
+    }
+
+    .card {
+      background: #111827;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+
+    h2 {
+      color: #22c55e;
+      margin-bottom: 10px;
+    }
+
+    select, input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: none;
+      background: #0b1220;
+      color: white;
+      outline: none;
+    }
+
+    select:focus, input:focus {
+      border: 1px solid #22c55e;
+      box-shadow: 0 0 6px rgba(34,197,94,0.4);
+    }
+
+    .smallBtn {
+      display: inline-block;
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: #22c55e;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      text-align: center;
+    }
+
+    .smallBtn:hover {
+      background: #16a34a;
+    }
+
+    /* STUDENT CARD */
+    .studentCard {
+      background: linear-gradient(135deg, #0f172a, #111827);
+      padding: 14px;
+      border-radius: 12px;
+      margin-top: 10px;
+      border-left: 4px solid #22c55e;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+    }
+
+    .studentCard h3 {
+      margin: 0;
+      font-size: 18px;
+      color: #22c55e;
+    }
+
+    .studentMeta {
+      font-size: 13px;
+      opacity: 0.8;
+      margin-top: 5px;
+    }
+
+    /* LOG INSIDE CARD */
+    #log {
+      margin-top: 10px;
+      padding: 8px;
+      background: rgba(0,0,0,0.35);
+      color: #22c55e;
+      border-radius: 8px;
+      font-size: 11px;
+      height: 70px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      line-height: 1.3;
+      border-top: 1px solid rgba(34,197,94,0.2);
+    }
+
+    /* SUBJECT GRID */
+    #subjectsContainer {
+      margin-top: 10px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .subjectInput {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #0f172a;
+      padding: 8px 10px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      min-height: 42px;
+    }
+
+    .subjectInput span {
+      font-size: 13px;
+      font-weight: 600;
+      color: #cbd5e1;
+    }
+
+    .subjectInput input {
+      width: 55px;
+      height: 32px;
+      text-align: center;
+      font-size: 14px;
+      border-radius: 6px;
+      border: 1px solid transparent;
+    }
+
+    .subjectInput input:focus {
+      border: 1px solid #22c55e;
+      outline: none;
+    }
+
+    /* RESULT */
+    #resultSummary {
+      margin-top: 10px;
+      padding: 10px;
+      background: black;
+      color: #22c55e;
+      border-radius: 8px;
+      font-size: 13px;
+      white-space: pre-wrap;
+    }
+
+    .full {
+      grid-column: span 2;
+    }
+
+    /* Spinner overlay fixed center of screen */
+    .overlay-fixed {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(11, 18, 32, 0.45);
+      z-index: 9999;
+      transition: opacity 150ms ease, visibility 150ms ease;
+      pointer-events: auto;
+    }
+
+    .overlay-fixed.hidden {
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+    }
+
+    .spinner {
+      border: 6px solid rgba(17,24,39,0.9);
+      border-top: 6px solid #22c55e;
+      border-radius: 50%;
+      width: 56px;
+      height: 56px;
+      animation: spin 1s linear infinite;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.6);
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+
+      #subjectsContainer {
+        grid-template-columns: 1fr;
+      }
+
+      .full {
+        grid-column: span 1;
+      }
+
+      .homeLink { right: 10px; font-size: 13px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    KDS MARKING SYSTEM
+    <a class="homeLink" href="landing.html" aria-label="Home">Home</a>
+  </div>
+
+  <div class="container">
+
+    <!-- LEFT -->
+    <div class="card">
+
+      <h2>Controls</h2>
+
+      <select id="gradeSelect" onchange="loadClasses()">
+        <option value="">Select Grade</option>
+        <option value="10">Grade 10</option>
+        <option value="11">Grade 11</option>
+        <option value="12">Grade 12</option>
+      </select>
+
+      <select id="classSelect" onchange="loadStudents()">
+        <option value="">Select Class</option>
+      </select>
+
+      <!-- STUDENT CARD -->
+      <div id="studentPanel" class="studentCard">
+        <h3 id="studentName">No student loaded</h3>
+        <div class="studentMeta" id="studentMeta">
+          Select a class to begin
+        </div>
+
+        <div style="display:flex; gap:10px; margin-top:10px;">
+          <button class="smallBtn" onclick="prevStudent()">⬅ Previous</button>
+          <button class="smallBtn" onclick="nextStudent()">Next ➡</button>
+        </div>
+
+        <!-- LOG (NOW CLEAN + ALWAYS VISIBLE) -->
+        <div id="log">Ready...</div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="card">
+
+      <h2>Marks Entry</h2>
+
+      <div id="subjectsContainer"></div>
+
+      <div id="resultSummary">Result preview will appear here</div>
+
+      <button class="smallBtn" onclick="saveResults()">Save & Send Results</button>
+
+    </div>
+
+  </div>
+
+  <!-- Spinner overlay fixed to the center of the screen -->
+  <div id="loadingOverlay" class="overlay-fixed hidden" aria-hidden="true">
+    <div class="spinner" role="status" aria-label="Loading"></div>
+  </div>
+
+  <script type="module" src="marking.js"></script>
+
+  <!-- AUTO INPUT ENGINE -->
+  <script>
+    document.addEventListener("input", function (e) {
+      if (e.target.classList.contains("markInput")) {
+
+        e.target.value = e.target.value.replace(/\D/g, "").slice(0, 2);
+
+        if (e.target.value.length === 2) {
+          const inputs = Array.from(document.querySelectorAll(".markInput"));
+          const index = inputs.indexOf(e.target);
+
+          if (inputs[index + 1]) {
+            inputs[index + 1].focus();
+          }
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>

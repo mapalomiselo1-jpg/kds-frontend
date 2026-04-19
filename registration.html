@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Student Registration</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b1220;
+      color: white;
+    }
+
+    .header {
+      background: #0f172a;
+      padding: 18px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+      border-bottom: 2px solid #22c55e;
+      position: relative; /* allow absolute child positioning */
+    }
+
+    /* Top-right Home link styled as a simple text link */
+    .homeLink {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9ae6b4; /* softer green */
+      text-decoration: none;
+      font-weight: 600;
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
+      font-size: 14px;
+      line-height: 1;
+      transition: color 120ms ease, text-decoration-color 120ms ease;
+    }
+
+    .homeLink:hover {
+      color: #d1fae5;
+      text-decoration: underline;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 30px auto;
+      background: #111827;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #22c55e;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: none;
+      background: #0b1220;
+      color: white;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    input:focus, select:focus {
+      border: 1px solid #22c55e;
+      box-shadow: 0 0 8px rgba(34,197,94,0.4);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 8px;
+      background: #22c55e;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #16a34a;
+    }
+
+    .log {
+      margin-top: 15px;
+      background: black;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      color: #22c55e;
+      min-height: 60px;
+      white-space: pre-wrap;
+    }
+
+    .label {
+      font-size: 12px;
+      opacity: 0.7;
+      margin-top: 5px;
+    }
+
+    @media (max-width: 480px) {
+      .homeLink { right: 8px; font-size: 14px; }
+      .container { margin: 16px; padding: 16px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    KDS Student System
+    <a class="homeLink" href="landing.html" aria-label="Home">Home</a>
+  </div>
+
+  <div class="container">
+
+    <h2>Register Student</h2>
+
+    <input id="name" placeholder="Student Name" />
+
+    <div class="label">Grade</div>
+    <select id="grade">
+      <option value="">Select Grade</option>
+      <option value="10">Grade 10</option>
+      <option value="11">Grade 11</option>
+      <option value="12">Grade 12</option>
+    </select>
+
+    <div class="label">Class</div>
+    <select id="class" onchange="autoStream()">
+      <option value="">Select Class</option>
+      <option value="E">E</option>
+      <option value="K">K</option>
+      <option value="Z">Z</option>
+      <option value="L">L</option>
+    </select>
+
+    <input id="stream" readonly placeholder="Auto Stream" />
+
+    <input 
+  id="phone" 
+  type="tel"
+  placeholder="260XXXXXXXXX"
+  maxlength="12"
+  inputmode="numeric"
+  autocomplete="off"
+/>
+
+    <button onclick="addStudent()">Save Student</button>
+
+    <div id="log" class="log">Ready...</div>
+
+  </div>
+
+  <script type="module" src="registration.js"></script>
+
+</body>
+</html>

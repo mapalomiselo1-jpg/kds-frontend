@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>KDS Smart System</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b1220;
+      color: white;
+    }
+
+    /* HEADER */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background: #0f172a;
+      border-bottom: 2px solid #22c55e;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: bold;
+      color: #22c55e;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: white;
+      opacity: 0.9;
+      transition: 0.18s;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .nav a:hover {
+      color: #0b1220;
+      background: #22c55e;
+      opacity: 1;
+    }
+
+    /* Primary action style for Students List */
+    .nav .studentsBtn {
+      background: #22c55e;
+      color: #071018;
+      box-shadow: 0 6px 18px rgba(34,197,94,0.12);
+    }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: 80px 20px;
+    }
+
+    .hero h1 {
+      font-size: 40px;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      font-size: 16px;
+      opacity: 0.8;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    .hero .actions {
+      margin-top: 25px;
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .hero .btn {
+      padding: 14px 30px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background: #22c55e;
+      color: #071018;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.18s;
+    }
+
+    .hero .btn.secondary {
+      background: transparent;
+      color: white;
+      border: 1px solid rgba(255,255,255,0.08);
+      font-weight: 600;
+    }
+
+    .hero .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(34,197,94,0.08);
+    }
+
+    .hero .btn.secondary:hover {
+      background: rgba(255,255,255,0.03);
+    }
+
+    /* FEATURES */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 40px;
+    }
+
+    .feature {
+      background: #111827;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+      transition: 0.2s;
+    }
+
+    .feature:hover {
+      transform: translateY(-5px);
+    }
+
+    .feature h3 {
+      color: #22c55e;
+    }
+
+    /* CTA */
+    .cta {
+      text-align: center;
+      padding: 50px 20px;
+      background: #0f172a;
+    }
+
+    .cta .btn {
+      padding: 14px 30px;
+      border: none;
+      border-radius: 8px;
+      background: #22c55e;
+      color: #071018;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* FOOTER */
+    .footer {
+      text-align: center;
+      padding: 15px;
+      font-size: 12px;
+      opacity: 0.6;
+    }
+
+    @media (max-width: 720px) {
+      .header { padding: 16px; }
+      .nav a { margin-left: 10px; padding: 8px 10px; font-size: 13px; }
+      .hero h1 { font-size: 28px; }
+      .hero p { padding: 0 12px; }
+      .hero .actions { flex-direction: column; gap: 10px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo">KDS Smart System</div>
+
+    <div class="nav">
+      <a href="registration.html">Register</a>
+      <a href="marking.html">Marking</a>
+      <a href="student_list.html" class="studentsBtn">Students List</a>
+      <a href="#">About</a>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1>Smart School Management</h1>
+    <p>
+      A modern system for managing students, recording results,
+      and instantly delivering performance reports to parents.
+    </p>
+
+    <div class="actions">
+      <button class="btn" onclick="location.href='marking.html'">Start Marking</button>
+      <button class="btn secondary" onclick="location.href='student_list.html'">View Students</button>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="features">
+
+    <div class="feature">
+      <h3>Student Registration</h3>
+      <p>Easily register and manage all students in one place.</p>
+    </div>
+
+    <div class="feature">
+      <h3>Smart Marking</h3>
+      <p>Fast and efficient result entry with automatic calculations.</p>
+    </div>
+
+    <div class="feature">
+      <h3>Instant Results</h3>
+      <p>Send results directly to parents via WhatsApp instantly.</p>
+    </div>
+
+  </div>
+
+  <!-- CTA -->
+  <div class="cta">
+    <h2>Start Managing Smarter</h2>
+    <button class="btn" onclick="location.href='registration.html'">
+      Register Students
+    </button>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    ©M@ps Creative • Built for Kapiri Day Secondary
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>KDS Teacher Access</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b1220;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .box {
+      width: 350px;
+      background: #111827;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    h2 {
+      text-align: center;
+      color: #22c55e;
+      margin-bottom: 15px;
+    }
+
+    .tabs {
+      display: flex;
+      margin-bottom: 15px;
+    }
+
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 10px;
+      cursor: pointer;
+      background: #0f172a;
+      border-radius: 8px;
+      margin: 2px;
+    }
+
+    .active {
+      background: #22c55e;
+      color: black;
+      font-weight: bold;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: none;
+      background: #0b1220;
+      color: white;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border: 1px solid #22c55e;
+      box-shadow: 0 0 6px rgba(34,197,94,0.4);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 8px;
+      background: #22c55e;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #16a34a;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    #log {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #22c55e;
+      background: black;
+      padding: 8px;
+      border-radius: 6px;
+      min-height: 40px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="box">
+
+    <h2>
+      Teacher Access</h2>
+
+    <!-- TABS -->
+    <div class="tabs">
+      <div id="loginTab" class="tab active" onclick="showLogin()">Login</div>
+      <div id="signupTab" class="tab" onclick="showSignup()">Sign Up</div>
+    </div>
+
+    <!-- LOGIN -->
+    <div id="loginForm">
+      <input id="loginEmail" placeholder="Email" />
+      <input id="loginPassword" type="password" placeholder="Password" />
+      <button onclick="login()">Login</button>
+    </div>
+
+    <!-- SIGNUP -->
+    <div id="signupForm" class="hidden">
+
+      <input id="name" placeholder="Full Name" />
+      <input id="email" placeholder="Email" />
+      <input id="password" type="password" placeholder="Password" />
+
+      <select id="grade" onchange="loadClasses()">
+        <option value="">Select Grade</option>
+        <option value="10">Grade 10</option>
+        <option value="11">Grade 11</option>
+        <option value="12">Grade 12</option>
+      </select>
+
+      <select id="class">
+        <option value="">Select Class</option>
+      </select>
+
+      <button onclick="signup()">Create Account</button>
+
+    </div>
+
+    <div id="log">Ready...</div>
+
+  </div>
+
+  <script>
+    function showLogin() {
+      document.getElementById("loginForm").classList.remove("hidden");
+      document.getElementById("signupForm").classList.add("hidden");
+
+      document.getElementById("loginTab").classList.add("active");
+      document.getElementById("signupTab").classList.remove("active");
+    }
+
+    function showSignup() {
+      document.getElementById("signupForm").classList.remove("hidden");
+      document.getElementById("loginForm").classList.add("hidden");
+
+      document.getElementById("signupTab").classList.add("active");
+      document.getElementById("loginTab").classList.remove("active");
+    }
+
+    function loadClasses() {
+      const grade = document.getElementById("grade").value;
+      const classSelect = document.getElementById("class");
+
+      classSelect.innerHTML = `<option value="">Select Class</option>`;
+
+      if (!grade) return;
+
+      ["E","K","Z","L"].forEach(c => {
+        classSelect.innerHTML += `<option value="${grade}${c}">${grade}${c}</option>`;
+      });
+    }
+  </script>
+
+  <script type="module" src="auth.js"></script>
+
+</body>
+</html>

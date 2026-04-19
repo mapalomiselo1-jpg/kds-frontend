@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Student Board</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b1220;
+      color: white;
+    }
+
+    .header {
+      padding: 15px;
+      background: #0f172a;
+      border-bottom: 2px solid #22c55e;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+      position: relative; /* allow absolute child positioning */
+    }
+
+    /* Top-right Home link styled as plain text link */
+    .homeLink {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9ae6b4;
+      text-decoration: none;
+      font-weight: 600;
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
+      font-size: 14px;
+      line-height: 1;
+      transition: color 120ms ease, text-decoration-color 120ms ease;
+    }
+
+    .homeLink:hover {
+      color: #d1fae5;
+      text-decoration: underline;
+    }
+
+    .container {
+      padding: 15px;
+      max-width: 1100px;
+      margin: auto;
+      position: relative;
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
+      align-items: center;
+    }
+
+    select, input {
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      background: #111827;
+      color: white;
+      outline: none;
+    }
+
+    .stats {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .statBox {
+      flex: 1;
+      background: #111827;
+      padding: 10px;
+      border-radius: 10px;
+      border-left: 3px solid #22c55e;
+      font-size: 13px;
+    }
+
+    .tableWrap {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #111827;
+    }
+
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid #0b1220;
+      font-size: 13px;
+    }
+
+    th {
+      background: #0f172a;
+      color: #22c55e;
+      text-align: left;
+    }
+
+    tr:hover {
+      background: #0b1220;
+      cursor: pointer;
+    }
+
+    .badge {
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+    }
+
+    .pass { background: #16a34a; color: black; }
+    .fail { background: #dc2626; color: white; }
+    .none { background: #6b7280; color: white; }
+
+    button {
+      padding: 5px 8px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 11px;
+    }
+
+    .edit { background: #facc15; }
+    .delete { background: #ef4444; color: white; }
+
+    /* Empty state row */
+    .emptyRow {
+      text-align: center;
+      color: #9ca3af;
+      font-style: italic;
+      background: transparent;
+    }
+
+    /* Spinner overlay fixed to center of the screen */
+    .overlay-fixed {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(11, 18, 32, 0.45);
+      z-index: 9999;
+      transition: opacity 150ms ease, visibility 150ms ease;
+      pointer-events: auto;
+    }
+
+    .overlay-fixed.hidden {
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+    }
+
+    .spinner {
+      border: 6px solid rgba(17,24,39,0.9);
+      border-top: 6px solid #22c55e;
+      border-radius: 50%;
+      width: 56px;
+      height: 56px;
+      animation: spin 1s linear infinite;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.6);
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Small responsive tweaks */
+    @media (max-width: 600px) {
+      .controls { gap: 8px; }
+      .statBox { font-size: 12px; padding: 8px; }
+      select, input { padding: 8px; }
+      .spinner { width: 44px; height: 44px; border-width: 5px; }
+      .homeLink { right: 8px; font-size: 14px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    📋 STUDENT BOARD CONTROL PANEL
+    <a class="homeLink" href="landing.html" aria-label="Home">Home</a>
+  </div>
+
+  <div class="container">
+
+    <!-- CONTROLS -->
+    <div class="controls">
+      <select id="gradeSelect" onchange="loadClasses(); clearEmptyMessage();">
+        <option value="">Select Grade</option>
+        <option value="10">Grade 10</option>
+        <option value="11">Grade 11</option>
+        <option value="12">Grade 12</option>
+      </select>
+
+      <select id="classSelect" onchange="loadBoard(); clearEmptyMessage();">
+        <option value="">Select Class</option>
+      </select>
+
+      <input type="text" placeholder="Search name or ID" id="search" oninput="filterTable()">
+    </div>
+
+    <!-- STATS -->
+    <div class="stats">
+      <div class="statBox" id="totalStudents">Select Grade and Class</div>
+      <div class="statBox" id="passCount">Pass: 0</div>
+      <div class="statBox" id="failCount">Fail: 0</div>
+    </div>
+
+    <!-- TABLE WRAPPER -->
+    <div class="tableWrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Class</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody id="tableBody">
+          <!-- Default empty state row shown until JS populates -->
+          <tr id="emptyMessageRow" class="emptyRow">
+            <td colspan="4">Select Grade and Class to load students...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- Spinner overlay fixed to the center of the screen (hidden by default) -->
+  <div id="loadingOverlay" class="overlay-fixed hidden" aria-hidden="true">
+    <div class="spinner" role="status" aria-label="Loading"></div>
+  </div>
+
+  <script type="module" src="student_list.js"></script>
+
+  <script>
+    // Small helper so the UI shows the "Select Grade and Class" message
+    // until the JS replaces the table contents. This function is called
+    // from the select onchange handlers to clear the message when user
+    // starts interacting.
+    function clearEmptyMessage() {
+      const row = document.getElementById('emptyMessageRow');
+      if (row) row.remove();
+      const totalEl = document.getElementById('totalStudents');
+      if (totalEl && totalEl.textContent.trim() === 'Select Grade and Class') {
+        // keep it until students are loaded; loadBoard() will update it
+      }
+    }
+  </script>
+
+</body>
+</html>
