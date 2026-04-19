@@ -233,7 +233,7 @@ if (selectedStudent.parent_phone) {
       status
     );
 
-    const response = await fetch("https://kds-sms-backend.onrender.com/send-sms", {
+    const response = await fetch("https://kds-sms-backend-1.onrender.com/send-sms", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
