@@ -212,62 +212,58 @@ window.saveResults = async function () {
   const log = document.getElementById("log");
 
   try {
-    // 1. SAVE TO FIREBASE
+    // SAVE TO FIREBASE
     await setDoc(doc(db, "results", selectedStudent.id), resultData);
 
     if (log) log.innerHTML = "✔ Saved successfully";
 
-    // 2. SEND SMS ONLY IF PHONE EXISTS
-   // =====================
-// 2. SEND SMS ONLY IF PHONE EXISTS
-// =====================
-if (selectedStudent.parent_phone) {
+    // =====================
+    // SMS SEND (CLEAN VERSION)
+    // =====================
+    if (selectedStudent.parent_phone) {
 
-  try {
+      try {
 
-    const message = formatResultSMS(
-      selectedStudent,
-      subjects,
-      resultObj,
-      avg,
-      status
-    );
+        const message = formatResultSMS(
+          selectedStudent,
+          subjects,
+          resultObj,
+          avg,
+          status
+        );
 
-    const response = await fetch("https://kds-sms-backend-1.onrender.com/send-sms", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        phone: selectedStudent.parent_phone,
-        message
-      })
-    });
+        console.log("📤 Sending SMS...");
 
-    if (!response.ok) {
-      throw new Error(`HTTP error: ${response.status}`);
+        const response = await fetch("https://kds-sms-backend-1.onrender.com/send-sms", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            phone: selectedStudent.parent_phone,
+            message
+          })
+        });
+
+        const data = await response.json();
+
+        console.log("📨 SMS RESPONSE:", data);
+
+        if (!response.ok) {
+          throw new Error(data.error || "SMS request failed");
+        }
+
+        if (log) log.innerHTML += "<br>📱 SMS Sent Successfully";
+
+      } catch (smsError) {
+        console.error("❌ SMS FAILED:", smsError);
+
+        if (log) {
+          log.innerHTML += "<br>❌ SMS Failed (backend issue)";
+        }
+      }
     }
 
-    const data = await response.json();
-
-    console.log("📨 SMS RESPONSE:", data);
-
-    if (data.error) {
-      throw new Error(data.error);
-    }
-
-    if (log) log.innerHTML += "<br>📱 SMS Sent Successfully";
-
-  } catch (smsError) {
-    console.error("❌ SMS FAILED:", smsError);
-
-    if (log) {
-      log.innerHTML += "<br>❌ SMS Failed (check backend/logs)";
-    }
-  }
-}
-
-    // 3. MOVE TO NEXT STUDENT
     nextStudent();
 
   } catch (err) {
