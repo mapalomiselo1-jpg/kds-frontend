@@ -2,37 +2,44 @@ export function formatResultSMS(student, subjects, marks, avg, status) {
 
   const map = {
     MATH: "M-",
-  ENGLISH: "E-",
-  SCIENCE: "S-",
-  CIVICS: "C-",
-  BIOLOGY: "B-",
+    ENGLISH: "E-",
+    SCIENCE: "S-",
+    CIVICS: "C-",
+    BIOLOGY: "B-",
 
-  HISTORY: "H-",
-  GEOGRAPHY: "G-",
-  PHYSICS: "P-",
-  CHEMISTRY: "CH-",
+    HISTORY: "H-",
+    GEOGRAPHY: "G-",
+    PHYSICS: "P-",
+    CHEMISTRY: "CH-",
 
-  POA: "POA-",
-  COMMERCE: "COM-",
+    POA: "POA-",
+    COMMERCE: "COM-",
 
-  BEMBA: "BE-",
-  RELIGIOUS_EDUCATION: "RE-",
+    BEMBA: "BE-",
+    RELIGIOUS_EDUCATION: "RE-",
 
-  ADDITIONAL_MATH: "ADD-",
+    ADDITIONAL_MATH: "ADD-",
 
-  // ✔ Missing subjects added
-  FOOD_OR_DESIGN: "F/D-",
-  LITERATURE: "LIT-",
-  PHYSICAL_EDUCATION: "PE-"
+    FOOD_OR_DESIGN: "F/D-",
+    LITERATURE: "LIT-",
+    PHYSICAL_EDUCATION: "PE-"
   };
 
-  const subjectLine = subjects.map(sub => {
-    const code = map[sub] || sub.slice(0, 2);
-    const mark = marks[sub] ?? 0;
-    return `${code}${mark}`;
-  }).join(" ");
+  const subjectLine = subjects
+    .map(sub => {
+      const code = map[sub] || sub.slice(0, 2);
+      const mark = marks[sub] ?? 0;
+      return `${code}${mark}`;
+    })
+    .join("\n");
 
-  return `${student.name} ${student.class}
+  return (
+`${student.name}
+${student.class}
+
 ${subjectLine}
-A:${avg.toFixed(0)}% ${status}`;
+
+AVG: ${avg.toFixed(0)}%
+STS: ${status}`
+  );
 }

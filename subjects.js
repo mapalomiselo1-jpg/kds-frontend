@@ -4,8 +4,6 @@ export const CLASS_SUBJECTS = {
   // =====================
   // FORM LEVEL (NEW LAYER)
   // =====================
-  "FORM_COMMON": ["MATH", "ENGLISH", "SCIENCE", "CIVICS"],
-
   "Form 1E": ["GEOGRAPHY", "RELIGIOUS_EDUCATION"],
   "Form 1K": ["BEMBA", "RELIGIOUS_EDUCATION"],
   "Form 1Z": ["FOOD_OR_DESIGN", "RELIGIOUS_EDUCATION"],
