@@ -5,185 +5,254 @@
   <title>Student Board</title>
 
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0b1220;
-      color: white;
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+    color: #0f172a;
+  }
+
+  .header {
+    padding: 15px;
+    background: white;
+    border-bottom: 2px solid #22c55e;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+
+  /* Top-right Home link */
+  .homeLink {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #16a34a;
+    text-decoration: none;
+    font-weight: 600;
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    font-size: 14px;
+    line-height: 1;
+    transition: color 120ms ease, text-decoration-color 120ms ease;
+  }
+
+  .homeLink:hover {
+    color: #15803d;
+    text-decoration: underline;
+  }
+
+  .container {
+    padding: 15px;
+    max-width: 1100px;
+    margin: auto;
+    position: relative;
+  }
+
+  .controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    align-items: center;
+  }
+
+  select,
+  input {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    background: white;
+    color: #0f172a;
+    outline: none;
+    transition: 0.2s;
+  }
+
+  select:focus,
+  input:focus {
+    border: 1px solid #22c55e;
+    box-shadow: 0 0 6px rgba(34,197,94,0.25);
+  }
+
+  .stats {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+  }
+
+  .statBox {
+    flex: 1;
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    border-left: 3px solid #22c55e;
+    font-size: 13px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border: 1px solid #e2e8f0;
+    min-width: 140px;
+  }
+
+  .tableWrap {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    border: 1px solid #e2e8f0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+  }
+
+  th,
+  td {
+    padding: 10px;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 13px;
+  }
+
+  th {
+    background: #f8fafc;
+    color: #16a34a;
+    text-align: left;
+    font-weight: bold;
+  }
+
+  tr:hover {
+    background: #f8fafc;
+    cursor: pointer;
+  }
+
+  .badge {
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: bold;
+  }
+
+  .pass {
+    background: #22c55e;
+    color: white;
+  }
+
+  .fail {
+    background: #ef4444;
+    color: white;
+  }
+
+  .none {
+    background: #94a3b8;
+    color: white;
+  }
+
+  button {
+    padding: 5px 8px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 11px;
+    transition: 0.2s;
+  }
+
+  .edit {
+    background: #facc15;
+    color: #0f172a;
+  }
+
+  .edit:hover {
+    background: #eab308;
+  }
+
+  .delete {
+    background: #ef4444;
+    color: white;
+  }
+
+  .delete:hover {
+    background: #dc2626;
+  }
+
+  /* Empty state row */
+  .emptyRow {
+    text-align: center;
+    color: #64748b;
+    font-style: italic;
+    background: transparent;
+  }
+
+  /* Spinner overlay */
+  .overlay-fixed {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.65);
+    z-index: 9999;
+    transition: opacity 150ms ease, visibility 150ms ease;
+    pointer-events: auto;
+  }
+
+  .overlay-fixed.hidden {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  .spinner {
+    border: 6px solid #e2e8f0;
+    border-top: 6px solid #22c55e;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    animation: spin 1s linear infinite;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.15);
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
     }
 
-    .header {
-      padding: 15px;
-      background: #0f172a;
-      border-bottom: 2px solid #22c55e;
-      font-size: 20px;
-      font-weight: bold;
-      text-align: center;
-      position: relative; /* allow absolute child positioning */
+    100% {
+      transform: rotate(360deg);
     }
+  }
 
-    /* Top-right Home link styled as plain text link */
-    .homeLink {
-      position: absolute;
-      right: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #9ae6b4;
-      text-decoration: none;
-      font-weight: 600;
-      background: transparent;
-      padding: 0;
-      border-radius: 0;
-      font-size: 14px;
-      line-height: 1;
-      transition: color 120ms ease, text-decoration-color 120ms ease;
-    }
-
-    .homeLink:hover {
-      color: #d1fae5;
-      text-decoration: underline;
-    }
-
-    .container {
-      padding: 15px;
-      max-width: 1100px;
-      margin: auto;
-      position: relative;
-    }
-
+  /* Responsive */
+  @media (max-width: 600px) {
     .controls {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 15px;
-      align-items: center;
-    }
-
-    select, input {
-      padding: 10px;
-      border-radius: 8px;
-      border: none;
-      background: #111827;
-      color: white;
-      outline: none;
-    }
-
-    .stats {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 15px;
+      gap: 8px;
     }
 
     .statBox {
-      flex: 1;
-      background: #111827;
-      padding: 10px;
-      border-radius: 10px;
-      border-left: 3px solid #22c55e;
-      font-size: 13px;
+      font-size: 12px;
+      padding: 8px;
     }
 
-    .tableWrap {
-      position: relative;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: #111827;
-    }
-
-    th, td {
-      padding: 10px;
-      border-bottom: 1px solid #0b1220;
-      font-size: 13px;
-    }
-
-    th {
-      background: #0f172a;
-      color: #22c55e;
-      text-align: left;
-    }
-
-    tr:hover {
-      background: #0b1220;
-      cursor: pointer;
-    }
-
-    .badge {
-      padding: 4px 8px;
-      border-radius: 6px;
-      font-size: 11px;
-    }
-
-    .pass { background: #16a34a; color: black; }
-    .fail { background: #dc2626; color: white; }
-    .none { background: #6b7280; color: white; }
-
-    button {
-      padding: 5px 8px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 11px;
-    }
-
-    .edit { background: #facc15; }
-    .delete { background: #ef4444; color: white; }
-
-    /* Empty state row */
-    .emptyRow {
-      text-align: center;
-      color: #9ca3af;
-      font-style: italic;
-      background: transparent;
-    }
-
-    /* Spinner overlay fixed to center of the screen */
-    .overlay-fixed {
-      position: fixed;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(11, 18, 32, 0.45);
-      z-index: 9999;
-      transition: opacity 150ms ease, visibility 150ms ease;
-      pointer-events: auto;
-    }
-
-    .overlay-fixed.hidden {
-      opacity: 0;
-      pointer-events: none;
-      visibility: hidden;
+    select,
+    input {
+      padding: 8px;
     }
 
     .spinner {
-      border: 6px solid rgba(17,24,39,0.9);
-      border-top: 6px solid #22c55e;
-      border-radius: 50%;
-      width: 56px;
-      height: 56px;
-      animation: spin 1s linear infinite;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.6);
+      width: 44px;
+      height: 44px;
+      border-width: 5px;
     }
 
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    .homeLink {
+      right: 8px;
+      font-size: 14px;
     }
-
-    /* Small responsive tweaks */
-    @media (max-width: 600px) {
-      .controls { gap: 8px; }
-      .statBox { font-size: 12px; padding: 8px; }
-      select, input { padding: 8px; }
-      .spinner { width: 44px; height: 44px; border-width: 5px; }
-      .homeLink { right: 8px; font-size: 14px; }
-    }
-  </style>
+  }
+</style>
 </head>
 
 <body>
@@ -197,12 +266,14 @@
 
     <!-- CONTROLS -->
     <div class="controls">
-      <select id="gradeSelect" onchange="loadClasses(); clearEmptyMessage();">
-        <option value="">Select Grade</option>
-        <option value="10">Grade 10</option>
-        <option value="11">Grade 11</option>
-        <option value="12">Grade 12</option>
-      </select>
+     <select id="gradeSelect" onchange="loadClasses(); clearEmptyMessage();">
+  <option value="">Select Grade</option>
+  <option value="Form 1">Form 1</option>
+  <option value="Form 2">Form 2</option>
+  <option value="10">Grade 10</option>
+  <option value="11">Grade 11</option>
+  <option value="12">Grade 12</option>
+</select>
 
       <select id="classSelect" onchange="loadBoard(); clearEmptyMessage();">
         <option value="">Select Class</option>

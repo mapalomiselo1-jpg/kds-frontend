@@ -211,14 +211,40 @@ window.saveResults = async function () {
 
   const log = document.getElementById("log");
 
+  function addLog(text, color = "#60a5fa") {
+    if (!log) return;
+
+    const line = document.createElement("div");
+    line.style.cssText = `
+      display:flex;
+      gap:8px;
+      align-items:center;
+      margin-bottom:6px;
+      color:${color};
+      font-weight:500;
+    `;
+    line.textContent = text;
+    log.appendChild(line);
+    log.scrollTop = log.scrollHeight;
+  }
+
   try {
-    // SAVE TO FIREBASE
+    // =====================
+    // SAVE START
+    // =====================
+    addLog("⏳ Saving results...", "#38bdf8");
+
     await setDoc(doc(db, "results", selectedStudent.id), resultData);
 
-    if (log) log.innerHTML = "✔ Saved successfully";
+    // reset log and show success cleanly
+    if (log) {
+      log.innerHTML = "";
+    }
+
+    addLog("✔ Saved successfully", "#22c55e");
 
     // =====================
-    // SMS SEND (CLEAN VERSION)
+    // SMS SEND
     // =====================
     if (selectedStudent.parent_phone) {
 
@@ -232,35 +258,59 @@ window.saveResults = async function () {
           status
         );
 
-        console.log("📤 Sending SMS...");
+        const smsLogLine = document.createElement("div");
+        smsLogLine.style.cssText = `
+          display:flex;
+          gap:8px;
+          align-items:center;
+          margin-bottom:6px;
+          color:#38bdf8;
+          font-weight:500;
+        `;
+        smsLogLine.textContent = "⏳ Sending SMS...";
+        
+        if (log) log.appendChild(smsLogLine);
 
-        const response = await fetch("https://kds-sms-backend-1.onrender.com/send-sms", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            phone: selectedStudent.parent_phone,
-            message
-          })
-        });
+        const response = await fetch(
+          "https://kds-sms-backend-1.onrender.com/send-sms",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              phone: selectedStudent.parent_phone,
+              message
+            })
+          }
+        );
 
         const data = await response.json();
-
-        console.log("📨 SMS RESPONSE:", data);
 
         if (!response.ok) {
           throw new Error(data.error || "SMS request failed");
         }
 
-        if (log) log.innerHTML += "<br>📱 SMS Sent Successfully";
+        // update same line
+        smsLogLine.style.color = "#22c55e";
+        smsLogLine.textContent = "📱 SMS Sent Successfully";
 
       } catch (smsError) {
-        console.error("❌ SMS FAILED:", smsError);
 
-        if (log) {
-          log.innerHTML += "<br>❌ SMS Failed (backend issue)";
-        }
+        console.error("SMS FAILED:", smsError);
+
+        const smsFailLine = document.createElement("div");
+        smsFailLine.style.cssText = `
+          display:flex;
+          gap:8px;
+          align-items:center;
+          margin-bottom:6px;
+          color:#ef4444;
+          font-weight:500;
+        `;
+        smsFailLine.textContent = "❌ SMS Failed (backend issue)";
+
+        if (log) log.appendChild(smsFailLine);
       }
     }
 
@@ -268,7 +318,8 @@ window.saveResults = async function () {
 
   } catch (err) {
     console.error("SAVE ERROR:", err);
-    if (log) log.innerHTML = "❌ Failed";
+
+    addLog("❌ Failed to save results", "#ef4444");
   }
 };
 

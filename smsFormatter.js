@@ -2,19 +2,28 @@ export function formatResultSMS(student, subjects, marks, avg, status) {
 
   const map = {
     MATH: "M-",
-    ENGLISH: "E-",
-    SCIENCE: "S-",
-    CIVICS: "C-",
-    BIOLOGY: "B-",
-    HISTORY: "H-",
-    GEOGRAPHY: "G-",
-    PHYSICS: "P-",
-    CHEMISTRY: "CH-",
-    POA: "POA-",
-    COMMERCE: "COM-",
-    BEMBA: "BE-",
-    RELIGIOUS_EDUCATION: "RE-",
-    ADDITIONAL_MATH: "AM-"
+  ENGLISH: "E-",
+  SCIENCE: "S-",
+  CIVICS: "C-",
+  BIOLOGY: "B-",
+
+  HISTORY: "H-",
+  GEOGRAPHY: "G-",
+  PHYSICS: "P-",
+  CHEMISTRY: "CH-",
+
+  POA: "POA-",
+  COMMERCE: "COM-",
+
+  BEMBA: "BE-",
+  RELIGIOUS_EDUCATION: "RE-",
+
+  ADDITIONAL_MATH: "ADD-",
+
+  // ✔ Missing subjects added
+  FOOD_OR_DESIGN: "F/D-",
+  LITERATURE: "LIT-",
+  PHYSICAL_EDUCATION: "PE-"
   };
 
   const subjectLine = subjects.map(sub => {

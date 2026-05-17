@@ -5,116 +5,130 @@
   <title>Student Registration</title>
 
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0b1220;
-      color: white;
-    }
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+    color: #0f172a;
+  }
 
-    .header {
-      background: #0f172a;
-      padding: 18px;
-      text-align: center;
-      font-size: 22px;
-      font-weight: bold;
-      border-bottom: 2px solid #22c55e;
-      position: relative; /* allow absolute child positioning */
-    }
+  .header {
+    background: white;
+    padding: 18px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    border-bottom: 2px solid #22c55e;
+    position: relative;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
 
-    /* Top-right Home link styled as a simple text link */
+  /* Top-right Home link */
+  .homeLink {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #16a34a;
+    text-decoration: none;
+    font-weight: 600;
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    font-size: 14px;
+    line-height: 1;
+    transition: color 120ms ease, text-decoration-color 120ms ease;
+  }
+
+  .homeLink:hover {
+    color: #15803d;
+    text-decoration: underline;
+  }
+
+  .container {
+    max-width: 500px;
+    margin: 30px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    border: 1px solid #e2e8f0;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #16a34a;
+  }
+
+  input,
+  select {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    background: white;
+    color: #0f172a;
+    outline: none;
+    transition: 0.2s;
+    box-sizing: border-box;
+  }
+
+  input:focus,
+  select:focus {
+    border: 1px solid #22c55e;
+    box-shadow: 0 0 8px rgba(34,197,94,0.25);
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 8px;
+    background: #22c55e;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  button:hover {
+    background: #16a34a;
+  }
+
+  .log {
+    margin-top: 15px;
+    background: #f8fafc;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    color: #15803d;
+    min-height: 60px;
+    white-space: pre-wrap;
+    border: 1px solid #dbeafe;
+  }
+
+  .label {
+    font-size: 12px;
+    opacity: 0.7;
+    margin-top: 5px;
+    color: #475569;
+  }
+
+  @media (max-width: 480px) {
     .homeLink {
-      position: absolute;
-      right: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #9ae6b4; /* softer green */
-      text-decoration: none;
-      font-weight: 600;
-      background: transparent;
-      padding: 0;
-      border-radius: 0;
+      right: 8px;
       font-size: 14px;
-      line-height: 1;
-      transition: color 120ms ease, text-decoration-color 120ms ease;
-    }
-
-    .homeLink:hover {
-      color: #d1fae5;
-      text-decoration: underline;
     }
 
     .container {
-      max-width: 500px;
-      margin: 30px auto;
-      background: #111827;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+      margin: 16px;
+      padding: 16px;
     }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #22c55e;
-    }
-
-    input, select {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border-radius: 8px;
-      border: none;
-      background: #0b1220;
-      color: white;
-      outline: none;
-      transition: 0.2s;
-    }
-
-    input:focus, select:focus {
-      border: 1px solid #22c55e;
-      box-shadow: 0 0 8px rgba(34,197,94,0.4);
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 15px;
-      border: none;
-      border-radius: 8px;
-      background: #22c55e;
-      color: black;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    button:hover {
-      background: #16a34a;
-    }
-
-    .log {
-      margin-top: 15px;
-      background: black;
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 12px;
-      color: #22c55e;
-      min-height: 60px;
-      white-space: pre-wrap;
-    }
-
-    .label {
-      font-size: 12px;
-      opacity: 0.7;
-      margin-top: 5px;
-    }
-
-    @media (max-width: 480px) {
-      .homeLink { right: 8px; font-size: 14px; }
-      .container { margin: 16px; padding: 16px; }
-    }
-  </style>
+  }
+</style>
 </head>
 
 <body>
@@ -131,12 +145,14 @@
     <input id="name" placeholder="Student Name" />
 
     <div class="label">Grade</div>
-    <select id="grade">
-      <option value="">Select Grade</option>
-      <option value="10">Grade 10</option>
-      <option value="11">Grade 11</option>
-      <option value="12">Grade 12</option>
-    </select>
+  <select id="grade">
+  <option value="">Select Grade</option>
+  <option value="Form 1">Form 1</option>
+  <option value="Form 2">Form 2</option>
+  <option value="10">Grade 10</option>
+  <option value="11">Grade 11</option>
+  <option value="12">Grade 12</option>
+</select>
 
     <div class="label">Class</div>
     <select id="class" onchange="autoStream()">
