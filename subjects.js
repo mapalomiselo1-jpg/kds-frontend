@@ -11,16 +11,16 @@ export const CLASS_SUBJECTS = {
   // =====================
   // FORM 1
   // =====================
-  "Form 1E": ["GEOGRAPHY", "RELIGIOUS_EDUCATION"],
-  "Form 1K": ["BEMBA", "RELIGIOUS_EDUCATION"],
-  "Form 1Z": ["FOOD_OR_DESIGN", "RELIGIOUS_EDUCATION"],
+  "Form 1E": ["PHYSICS", "CHEMISTRY", "FOOD_OR_DESIGN", "ICT"],
+  "Form 1K": ["COMMERCE", "ACCOUNTS", "ICT"],
+  "Form 1Z": ["PHYSICAL_EDUCATION", "GEOGRAPHY", "ICT"],
 
   // =====================
   // FORM 2
   // =====================
-  "Form 2E": ["HISTORY", "POA"],
-  "Form 2K": ["PHYSICAL_EDUCATION", "BEMBA", "LITERATURE"],
-  "Form 2Z": ["GEOGRAPHY", "FOOD_OR_DESIGN"],
+  "Form 2E": ["PHYSICS", "CHEMISTRY", "FOOD_OR_DESIGN", "ICT"],
+  "Form 2K": ["COMMERCE", "ACCOUNTS", "ICT"],
+  "Form 2Z": ["PHYSICAL_EDUCATION", "GEOGRAPHY", "ICT"],
 
   // =====================
   // GRADE 10
@@ -49,7 +49,18 @@ export const CLASS_SUBJECTS = {
 // EXCLUSIONS (SPECIAL RULES)
 // =====================
 export const EXCLUDED_SUBJECTS = {
-  "12L": ["SCIENCE"]
+
+  // Grade 12L does not do Science
+  "12L": ["SCIENCE"],
+
+  // ALL FORM CLASSES do not do Science
+  "Form 1E": ["SCIENCE", "BIOLOGY"],
+  "Form 1K": ["SCIENCE"],
+  "Form 1Z": ["SCIENCE"],
+
+  "Form 2E": ["SCIENCE", "BIOLOGY"],
+  "Form 2K": ["SCIENCE"],
+  "Form 2Z": ["SCIENCE"]
 };
 
 // =====================
